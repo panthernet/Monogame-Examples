@@ -1,0 +1,2 @@
+Presented code is partialy or completely uses PantheR's Monogame/XNA Examples code.
+http://www.panthernet.ru

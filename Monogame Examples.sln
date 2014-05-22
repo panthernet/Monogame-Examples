@@ -1,0 +1,91 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examples.IRR", "Examples.IRR\Examples.IRR.csproj", "{EF2AF74A-8706-47F4-8EF2-4B36F22C5EC3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CommonSources", "CommonSources", "{BF284C53-6103-450E-865A-8DA47B130550}"
+	ProjectSection(SolutionItems) = preProject
+		CommonSources\Camera2D.cs = CommonSources\Camera2D.cs
+		CommonSources\Extensions.cs = CommonSources\Extensions.cs
+		CommonSources\ExtensionsCamera.cs = CommonSources\ExtensionsCamera.cs
+		CommonSources\ResolutionRenderer.cs = CommonSources\ResolutionRenderer.cs
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "InputHelper", "InputHelper", "{EFA75F8F-F875-44DA-8357-5DDB53FCDA3A}"
+	ProjectSection(SolutionItems) = preProject
+		CommonSources\InputHelper\InputHelper.cs = CommonSources\InputHelper\InputHelper.cs
+		CommonSources\InputHelper\KeyState.cs = CommonSources\InputHelper\KeyState.cs
+		CommonSources\InputHelper\MouseButton.cs = CommonSources\InputHelper\MouseButton.cs
+		CommonSources\InputHelper\MouseButtonState.cs = CommonSources\InputHelper\MouseButtonState.cs
+		CommonSources\InputHelper\ScrollDirection.cs = CommonSources\InputHelper\ScrollDirection.cs
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examples.UIDesigner", "Examples.UIDesigner\Examples.UIDesigner.csproj", "{69C3EADA-B4D2-4B35-94A0-82D4526D86C9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4E866C10-6FD5-4D2C-AD27-9A33F9E94789}"
+	ProjectSection(SolutionItems) = preProject
+		License.txt = License.txt
+		NOTICE.txt = NOTICE.txt
+		README.txt = README.txt
+		version.txt = version.txt
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examples.AdvancedCamera2D", "Examples.Camera2D\Examples.AdvancedCamera2D.csproj", "{B88C32C4-5FA1-490A-89F8-E05436CBC5C8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examples.Sprites", "Examples.Sprite\Examples.Sprites.csproj", "{7F017851-5BB7-420E-A766-6A8916E9F39A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sprite", "Sprite", "{2278F4D9-BACA-4B6E-AC35-5194D3A895F9}"
+	ProjectSection(SolutionItems) = preProject
+		CommonSources\Sprite\DecalTexture.cs = CommonSources\Sprite\DecalTexture.cs
+		CommonSources\Sprite\ISprite.cs = CommonSources\Sprite\ISprite.cs
+		CommonSources\Sprite\ISpriteTexture.cs = CommonSources\Sprite\ISpriteTexture.cs
+		CommonSources\Sprite\Sprite.cs = CommonSources\Sprite\Sprite.cs
+		CommonSources\Sprite\SpriteTexture.cs = CommonSources\Sprite\SpriteTexture.cs
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examples.SpaceParticles", "Examples.Particles\Examples.SpaceParticles.csproj", "{B09F3324-6680-4BF8-8154-2B6FFEA096EF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Particles", "Particles", "{21F88D0C-730A-4283-ABF8-7D25F77DD8D5}"
+	ProjectSection(SolutionItems) = preProject
+		CommonSources\Particles\IParticlesLogic.cs = CommonSources\Particles\IParticlesLogic.cs
+		CommonSources\Particles\Particle.cs = CommonSources\Particles\Particle.cs
+		CommonSources\Particles\ParticlesLogic.cs = CommonSources\Particles\ParticlesLogic.cs
+		CommonSources\Particles\ParticlesManager.cs = CommonSources\Particles\ParticlesManager.cs
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EF2AF74A-8706-47F4-8EF2-4B36F22C5EC3}.Debug|x86.ActiveCfg = Debug|x86
+		{EF2AF74A-8706-47F4-8EF2-4B36F22C5EC3}.Debug|x86.Build.0 = Debug|x86
+		{EF2AF74A-8706-47F4-8EF2-4B36F22C5EC3}.Release|x86.ActiveCfg = Release|x86
+		{EF2AF74A-8706-47F4-8EF2-4B36F22C5EC3}.Release|x86.Build.0 = Release|x86
+		{69C3EADA-B4D2-4B35-94A0-82D4526D86C9}.Debug|x86.ActiveCfg = Debug|x86
+		{69C3EADA-B4D2-4B35-94A0-82D4526D86C9}.Debug|x86.Build.0 = Debug|x86
+		{69C3EADA-B4D2-4B35-94A0-82D4526D86C9}.Release|x86.ActiveCfg = Release|x86
+		{69C3EADA-B4D2-4B35-94A0-82D4526D86C9}.Release|x86.Build.0 = Release|x86
+		{B88C32C4-5FA1-490A-89F8-E05436CBC5C8}.Debug|x86.ActiveCfg = Debug|x86
+		{B88C32C4-5FA1-490A-89F8-E05436CBC5C8}.Debug|x86.Build.0 = Debug|x86
+		{B88C32C4-5FA1-490A-89F8-E05436CBC5C8}.Release|x86.ActiveCfg = Release|x86
+		{B88C32C4-5FA1-490A-89F8-E05436CBC5C8}.Release|x86.Build.0 = Release|x86
+		{7F017851-5BB7-420E-A766-6A8916E9F39A}.Debug|x86.ActiveCfg = Debug|x86
+		{7F017851-5BB7-420E-A766-6A8916E9F39A}.Debug|x86.Build.0 = Debug|x86
+		{7F017851-5BB7-420E-A766-6A8916E9F39A}.Release|x86.ActiveCfg = Release|x86
+		{7F017851-5BB7-420E-A766-6A8916E9F39A}.Release|x86.Build.0 = Release|x86
+		{B09F3324-6680-4BF8-8154-2B6FFEA096EF}.Debug|x86.ActiveCfg = Debug|x86
+		{B09F3324-6680-4BF8-8154-2B6FFEA096EF}.Debug|x86.Build.0 = Debug|x86
+		{B09F3324-6680-4BF8-8154-2B6FFEA096EF}.Release|x86.ActiveCfg = Release|x86
+		{B09F3324-6680-4BF8-8154-2B6FFEA096EF}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{EFA75F8F-F875-44DA-8357-5DDB53FCDA3A} = {BF284C53-6103-450E-865A-8DA47B130550}
+		{2278F4D9-BACA-4B6E-AC35-5194D3A895F9} = {BF284C53-6103-450E-865A-8DA47B130550}
+		{21F88D0C-730A-4283-ABF8-7D25F77DD8D5} = {BF284C53-6103-450E-865A-8DA47B130550}
+	EndGlobalSection
+EndGlobal

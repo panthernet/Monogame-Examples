@@ -1,0 +1,54 @@
+v2.0
++ Improved Monogame v3.2 support
++ Added UIDesigner cleanup routines
+
+v1.9
++ Added UIDesigner ability to load XNB files (texture only)
++ Added particle explosion to Example 5
++ Added Camera2D::ToDisplay() method for virtual to screen coordinates translation
++ Added ResolutionRenderer::ToDisplay() method
++ Some code refactoring 
++ Improved IRR to be less garbage intensive
+
+v1.8
++ Added Example 5 - Particles
+
+v1.7
++ Added additional checks in UIDesigner
++ Added SDL.dll file to solution for easier integration using new MG installation
++ Added missing license notes :D
++ Added Example 4 - Sprites
+
+v1.6 
++ Fixed UIDesigner bug where textures hasn't been copied properly
++ Added the ability to change textures draw order using WinForms control
++ Added some tooltip to WF control
+
+v1.5
++ UIDesigner enhancements
+	* Added constructor option to hide tutorial text
+	* Added class property to hide red tint on selected texture
+	* Added mouse resize saving aspect ration (using SHIFT + RMB)
+	* Optimized logic to work with delayed texture loading (null Textures prop)
+	* Fixed bug with coordinates not updated after texture list change
+	* Made mouse drag to work only if directly clicking on texture
+
+v1.4
++ Added optional WinForms helper control for UIDesigner that allows
+	* On-the-fly textures and names managment (load/remove/duplicate)
+	* Code generation for all textures
+
+v1.3
++ Added Camera2D coordinates handling example code
++ Added UIDesgner ability to select texture by LMB before applying drag
++ Added backgrounds to examples
++ Made all reusable resources across examples shared
++ Unified code convention and added some comments
+
+V1.2
++ Added Camera2D example
++ Added Camera2D extensions for SpriteBatch
++ Unified shared data namespaces
+ 
+V1.1
++ Added UIDesigner component example
