@@ -1,3 +1,8 @@
+v2.1
++ Fixed UI designer image loading. Now you have to setup path to the folder from which images can be added into designer.
+	This is due ContentManager logic which allows to load textures only under its own RootDirectory.
+	For example, if ContentManager root directory is 'Content' and you have specified 'Images/Test' path in UIDesigner constructor then UIDesigner will look for selected images in '<App Root>/Content/Images/Test' folder.
+
 v2.0
 + Improved Monogame v3.2 support
 + Added UIDesigner cleanup routines

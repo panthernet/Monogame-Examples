@@ -1,4 +1,4 @@
-﻿namespace Examples.UIDesigner.UIDesigner
+﻿namespace Examples.Classes
 {
     partial class UIDesigner
     {

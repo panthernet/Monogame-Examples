@@ -1,14 +1,14 @@
-﻿using System.Linq;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 
-namespace Examples.UIDesigner.UIDesigner
+namespace Examples.Classes
 {
     public partial class UIDesigner : Form
     {
@@ -24,15 +24,18 @@ namespace Examples.UIDesigner.UIDesigner
         /// Content manager link
         /// </summary>
         private readonly ContentManager _content;
+        private readonly string _contentPath;
 
         /// <summary>
         /// Create UIDesigner helper window
         /// </summary>
         /// <param name="content">MonoGame content manager</param>
+        /// <param name="contentPath">Path under default ContentManager to load images from (eg. if default CM path is 'Content' then we will be looking for images in 'Content/contentPath')</param>
         /// <param name="list">Data list</param>
-        public UIDesigner(ContentManager content, List<UIDesignerComponent.MyTuple<Texture2D, Rectangle, string>> list = null)
+        public UIDesigner(ContentManager content, string contentPath, IEnumerable<UIDesignerComponent.MyTuple<Texture2D, Rectangle, string>> list = null)
         {
             InitializeComponent();
+            _contentPath = contentPath;
             DataList = new BindingList<UData>();
             dgv.MultiSelect = false;
             dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
@@ -55,7 +58,7 @@ namespace Examples.UIDesigner.UIDesigner
         void but_down_Click(object sender, EventArgs e)
         {
             if (DataList.Count == 0 || dgv.SelectedRows.Count == 0) return;
-            var data = dgv.SelectedRows[0].DataBoundItem as UData;
+            var data = (dgv.SelectedRows[0] as DataGridViewRow).DataBoundItem as UData;
             var oldIndex = DataList.IndexOf(data);
             if (oldIndex == DataList.Count-1) return;
             DataList.RemoveAt(oldIndex);
@@ -67,7 +70,7 @@ namespace Examples.UIDesigner.UIDesigner
         void but_up_Click(object sender, EventArgs e)
         {
             if (DataList.Count == 0 || dgv.SelectedRows.Count == 0) return;
-            var data = dgv.SelectedRows[0].DataBoundItem as UData;
+            var data = (dgv.SelectedRows[0] as DataGridViewRow).DataBoundItem as UData;
             var oldIndex = DataList.IndexOf(data);
             if (oldIndex == 0) return;
             DataList.RemoveAt(oldIndex);
@@ -80,7 +83,7 @@ namespace Examples.UIDesigner.UIDesigner
         /// Update data inside this control
         /// </summary>
         /// <param name="list">Data list</param>
-        public void UpdateData(List<UIDesignerComponent.MyTuple<Texture2D, Rectangle, string>> list)
+        public void UpdateData(IEnumerable<UIDesignerComponent.MyTuple<Texture2D, Rectangle, string>> list)
         {
             if (list == null) return;
             DataList.Clear();
@@ -92,13 +95,8 @@ namespace Examples.UIDesigner.UIDesigner
         void but_copytex_Click(object sender, EventArgs e)
         {
             if (DataList.Count == 0 || dgv.SelectedRows.Count == 0) return;
-            foreach (var item in dgv.SelectedRows)
-            {
-                var dataGridViewRow = item as DataGridViewRow;
-                if (dataGridViewRow != null) {
-                    var data = dataGridViewRow.DataBoundItem as UData;
-                    if (data != null) DataList.Add(data.Clone());
-                }
+            foreach (var data in (from object item in dgv.SelectedRows select (item as DataGridViewRow).DataBoundItem).OfType<UData>()) {
+                DataList.Add(data.Clone());
             }
             dgv.DataSource = DataList;
         }
@@ -136,13 +134,14 @@ namespace Examples.UIDesigner.UIDesigner
 
         void but_add_Click(object sender, EventArgs e)
         {
-            var dlg = new OpenFileDialog { CheckFileExists = true, Filter="Supported Images|*.png;*.jpg;*.bmp;*.xnb", Multiselect = true, RestoreDirectory = true, Title = "Selec images to add as textures" };
+            var dlg = new OpenFileDialog
+            { CheckFileExists = true, Filter="Supported Images|*.png;*.jpg;*.bmp", Multiselect = true, RestoreDirectory = true, Title = "Select images to add as textures", 
+                InitialDirectory  = _content.RootDirectory + (string.IsNullOrEmpty(_contentPath) ? "" : ("/" + _contentPath))};
             dlg.ShowDialog();
             foreach (var item in dlg.FileNames)
             {
-
-                var tex = _content.Load<Texture2D>(item.EndsWith(".xnb") ? item.Substring(0, item.Length - 4) : item);
-                var name = Path.GetFileName(tex.Name);
+                var name = Path.GetFileName(item);
+                var tex = _content.Load<Texture2D>(string.IsNullOrEmpty(_contentPath) ? name : (_contentPath + "/"+name));
                 var t = new UData { Name = name, StoredRectangle = new Rectangle(0,0, tex.Width, tex.Height), StoredTexture = tex };
                 DataList.Add(t);
             }
@@ -153,20 +152,19 @@ namespace Examples.UIDesigner.UIDesigner
         {
             if (DataList.Count == 0 || dgv.SelectedRows.Count == 0) return;
             foreach (var item in dgv.SelectedRows)
-                if (item != null) dgv.Rows.Remove(item as DataGridViewRow);
+                dgv.Rows.Remove(item as DataGridViewRow);
         }
 
         class UData : IDisposable
         {
             public string Name { get; set; }
             public string Texture { get { return StoredTexture.Name; } }
-/*
             public string Rectangle 
             {
                 get { return string.Format("{0},{1},{2},{3}", StoredRectangle.X, StoredRectangle.Y, StoredRectangle.Width, StoredRectangle.Height); }
                 set 
                 {
-                    var lst = value.Split(new char[] { ',' });
+                    var lst = value.Split(new[] { ',' });
                     if (lst.Length != 4)
                     {
                         MessageBox.Show("Number of params must be equal to 4!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -185,13 +183,12 @@ namespace Examples.UIDesigner.UIDesigner
                     }
                 }
             }
-*/
             public Texture2D StoredTexture;
             public Rectangle StoredRectangle;
 
             public void Dispose()
             {
-                StoredTexture = null;
+                 StoredTexture = null;
             }
 
             public UData Clone()

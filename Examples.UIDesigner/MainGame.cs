@@ -75,7 +75,7 @@ namespace Examples.UIDesigner
             _font = Content.Load<SpriteFont>("sf");
 
 
-            Components.Add(new UIDesignerComponent(this, _font, new List<UIDesignerComponent.MyTuple<Texture2D, Rectangle, string>>
+            Components.Add(new UIDesignerComponent(this,"", _font, new List<UIDesignerComponent.MyTuple<Texture2D, Rectangle, string>>
             {
                 new UIDesignerComponent.MyTuple<Texture2D, Rectangle, string>(playTexture,  new Rectangle(0,636,205,51), "Play"),
                 new UIDesignerComponent.MyTuple<Texture2D, Rectangle, string>(optTexture,  new Rectangle(1065,631,191,51), "Options"),

@@ -1,12 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Mime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Examples.Classes;
 
-namespace Examples.UIDesigner
+namespace Examples.Classes
 {
     /// <summary>
     /// UI Designer Component is made to simplify the proccess of getting screen coordinates
@@ -51,7 +49,7 @@ namespace Examples.UIDesigner
         private bool _isResizing;
         private readonly bool _showTutorialInfo;
 #if WINDOWS
-        private UIDesigner.UIDesigner _wfDesigner;
+        private readonly UIDesigner _wfDesigner;
 #endif
         /// <summary>
         /// Internal trigger for onscreen text visibility
@@ -73,32 +71,34 @@ namespace Examples.UIDesigner
         /// Gets or sets selected texture distinction using red tint
         /// </summary>
         public bool UseRedTintOnSelectedTexture { get; set; }
-
-        private Game _game;
+        private readonly Game _game;
 
         /// <summary>
         /// UI Designer component constructor
         /// </summary>
         /// <param name="game">Current Game instance</param>
+        /// <param name="contentPath">Path under default ContentManager to load images from (eg. if default CM path is 'Content' then we will be looking for images in 'Content/contentPath')</param>
         /// <param name="font">Font that will be used for text drawing</param>
         /// <param name="texture">Texture that will be displayed</param>
         /// <param name="initialRect">Initial texture bounds rectangle</param>
         /// <param name="displayName">Optional texture display name</param>
         /// <param name="resol">Optional IRR instance</param>
-        public UIDesignerComponent(Game game, SpriteFont font, Texture2D texture, Rectangle initialRect, string displayName, ResolutionRenderer resol = null)
-            : this(game, font, new List<MyTuple<Texture2D, Rectangle, string>> { new MyTuple<Texture2D, Rectangle, string>(texture, initialRect, displayName) }, resol)
+        public UIDesignerComponent(Game game, string contentPath, SpriteFont font, Texture2D texture, Rectangle initialRect, string displayName, ResolutionRenderer resol = null)
+            : this(game, contentPath, font, new List<MyTuple<Texture2D, Rectangle, string>> { new MyTuple<Texture2D, Rectangle, string>(texture, initialRect, displayName) }, resol)
         {
         }
+
 
         /// <summary>
         /// UI Designer component constructor
         /// </summary>
         /// <param name="game">Current Game instance</param>
+        /// <param name="contentPath">Path under default ContentManager to load images from (eg. if default CM path is 'Content' then we will be looking for images in 'Content/contentPath')</param>
         /// <param name="font">Font that will be used for text drawing</param>
         /// <param name="list">Texture+Bounds+Name data list</param>
         /// <param name="resol">Optional IRR instance</param>
         /// <param name="showTutorialInfo"></param>
-        public UIDesignerComponent(Game game, SpriteFont font, List<MyTuple<Texture2D, Rectangle, string>> list, ResolutionRenderer resol = null, bool showTutorialInfo = false)
+        public UIDesignerComponent(Game game, string contentPath, SpriteFont font, List<MyTuple<Texture2D, Rectangle, string>> list, ResolutionRenderer resol = null, bool showTutorialInfo = false)
             : base(game)
         {
             _game = game;
@@ -118,30 +118,8 @@ namespace Examples.UIDesigner
             FontScale = 1f;
             ShiftSize = 3;
 #if WINDOWS
-            _wfDesigner = new UIDesigner.UIDesigner(Game.Content, list);
+            _wfDesigner = new UIDesigner(Game.Content,contentPath, list);
 #endif
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-                _game = null;
-                Font = null;
-                _mBatch = null;
-                SelectedTexture = null;
-                if(Textures != null)
-                    Textures.Clear();
-#if WINDOWS
-                if (_wfDesigner != null)
-                {
-                    if (_wfDesigner.Visible)
-                    {
-                        _wfDesigner.Close();
-                        _wfDesigner.Dispose();
-                    }
-                    _wfDesigner = null;
-                }
-#endif
-            base.Dispose(disposing);
         }
 
         protected override void LoadContent()
@@ -152,17 +130,11 @@ namespace Examples.UIDesigner
 
         public override void Draw(GameTime gameTime)
         {
-            //return if game core isn't active
-            if (!_game.IsActive) return;
-
-            //workaround for weird bug
             if (_mBatch == null)
-                LoadContent();
-            if(_mBatch == null) return;
-
+                _mBatch = new SpriteBatch(Game.GraphicsDevice);
             //Begin sprite batch and use IRR if available
             if (_irr != null)
-                _mBatch.BeginResolution(_irr);
+                _mBatch.BeginResolution(_irr, BlendState.AlphaBlend);
             else _mBatch.Begin();
             //draw texture if we have one
             for (int i = 0; i < Textures.Count; i++)
@@ -187,9 +159,7 @@ namespace Examples.UIDesigner
 
         public override void Update(GameTime gameTime)
         {
-            //return if game core isn't active
-            if (!_game.IsActive) return;
-
+            if(!_game.IsActive) return;
             //process key presses
             var state = Keyboard.GetState();
             var pkeys = state.GetPressedKeys();
@@ -271,7 +241,7 @@ namespace Examples.UIDesigner
                         if (tWidth >= .001)
                         {
                             // Figure out the ratio
-                            float ratioX = tWidth / _tmpWidth;
+                            var ratioX = tWidth / _tmpWidth;
                             // now we can get the new height and width
                             _tmpHeight = (_tmpHeight * ratioX);
                             _tmpWidth = (_tmpWidth * ratioX);
@@ -282,7 +252,7 @@ namespace Examples.UIDesigner
                     else
                     {
                         _tmpWidth -= shiftX;
-                        _tmpHeight -=shiftY;
+                        _tmpHeight -= shiftY;
                         TextureBounds.Width = (int)_tmpWidth;
                         TextureBounds.Height = (int)_tmpHeight;
                     }
@@ -343,7 +313,7 @@ namespace Examples.UIDesigner
                 _isDragging = false;
             #endregion
 
- 
+
 
             _prevMouseState = mState;
         }
